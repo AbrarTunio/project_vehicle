@@ -470,17 +470,19 @@ nav {
 }
 /* When r-card-icon is a real <img> */
 img.r-card-icon {
-  font-size: unset; width: 100%; height: 160px;
+  width: calc(100% + 0px); height: 180px;
   object-fit: cover; object-position: center;
-  border-radius: 16px; margin: 8px 0;
-  filter: brightness(0.9) saturate(1.1);
+  border-radius: 12px; margin: 4px 0 0;
+  flex-shrink: 0;
+  filter: brightness(0.88) saturate(1.1);
   animation: floatUp 4s ease-in-out infinite alternate;
+  font-size: unset;
 }
 /* Gallery main image */
 img.gallery-car-img {
   width: 100%; height: 100%;
   object-fit: cover; object-position: center;
-  display: block;
+  display: block; position: absolute; inset: 0;
 }
 @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-12px)} }
 
@@ -961,7 +963,11 @@ img.gallery-car-img {
 }
 .v-card.is-exists:hover { box-shadow: var(--shadow-glow-r), var(--shadow-hover); }
 
-.car-img-wrap { position: relative; width: 100%; height: 210px; overflow: hidden; flex-shrink: 0; }
+.car-img-wrap {
+  position: relative; width: 100%; height: 210px;
+  overflow: hidden; flex-shrink: 0;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+}
 .car-img-ph {
   width: 100%; height: 100%;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -987,15 +993,25 @@ img.gallery-car-img {
   filter: drop-shadow(0 12px 28px var(--ph-shadow, rgba(16,185,129,0.45)));
   transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
 }
-/* When car-icon is a real <img> */
+/* Real photo — always fills the box perfectly regardless of image dimensions */
 img.car-icon {
-  font-size: unset; width: 100%; height: 100%;
-  object-fit: cover; position: absolute; inset: 0;
-  filter: brightness(0.92) saturate(1.1);
-  border-radius: 0; z-index: 1;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* crop to fill, never stretch */
+  object-position: center; /* centre the crop point */
+  display: block;
+  filter: brightness(0.92) saturate(1.08);
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  /* safety: never let it overflow the card */
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 0;
+  z-index: 1;
 }
 .v-card:hover .car-icon { transform: scale(1.1) translateY(-6px); }
-.v-card:hover img.car-icon { transform: scale(1.04); translateY(0); }
+.v-card:hover img.car-icon { transform: scale(1.05); }
 .car-reflection {
   position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
   width: 55%; height: 3px; border-radius: 50%;
@@ -1539,6 +1555,45 @@ img.car-icon {
 }
 .fl-tag-new { background: rgba(245,158,11,0.15); color: var(--gold2); border-color: rgba(245,158,11,0.3); }
 
+/* ── Why VehicleOS — mini vehicle preview strip ── */
+.wv-preview {
+  display: flex; flex-direction: column; gap: 14px; justify-content: center;
+}
+.wv-card {
+  display: flex; align-items: center; gap: 0;
+  background: var(--glass2); border: 1px solid var(--border);
+  border-radius: 18px; overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); cursor: pointer;
+}
+.wv-card:hover {
+  border-color: rgba(16,185,129,0.35); transform: translateX(6px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35), 0 0 30px rgba(16,185,129,0.1);
+}
+.wv-img-wrap {
+  width: 120px; height: 84px; flex-shrink: 0;
+  overflow: hidden; position: relative; background: var(--bg2);
+}
+.wv-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block; transition: transform 0.4s ease;
+}
+.wv-card:hover .wv-img-wrap img { transform: scale(1.07); }
+.wv-info { flex: 1; padding: 12px 16px; }
+.wv-make {
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.5px;
+  color: var(--text); margin-bottom: 2px;
+}
+.wv-model { font-size: 0.78rem; color: var(--text2); margin-bottom: 8px; }
+.wv-foot { display: flex; align-items: center; gap: 8px; }
+.wv-price {
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 0.92rem; font-weight: 900; letter-spacing: -0.3px;
+  background: var(--g-cool);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
 /* Live listings mini strip */
 .footer-live-strip {
   background: rgba(16,185,129,0.05);
@@ -1947,22 +2002,47 @@ img.car-icon {
           <div class="net-source-item"><div class="net-source-icon">🛡️</div><div class="net-source-name">Free to Browse</div><div class="net-source-status">No hidden fees</div></div>
         </div>
       </div>
-      <div class="network-diagram">
-        <div class="net-node net-node-1">🏆</div>
-        <div class="net-node net-node-2">🔍</div>
-        <div class="net-node net-node-3">📍</div>
-        <div class="net-node net-node-4">🛡️</div>
-        <div class="net-center" style="font-size:2.2rem;">🚗</div>
-        <svg class="net-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <line x1="20" y1="20" x2="50" y2="50" stroke="rgba(16,185,129,0.25)" stroke-width="0.3" stroke-dasharray="2,2"/>
-          <line x1="80" y1="20" x2="50" y2="50" stroke="rgba(16,185,129,0.25)" stroke-width="0.3" stroke-dasharray="2,2"/>
-          <line x1="20" y1="80" x2="50" y2="50" stroke="rgba(16,185,129,0.25)" stroke-width="0.3" stroke-dasharray="2,2"/>
-          <line x1="80" y1="80" x2="50" y2="50" stroke="rgba(16,185,129,0.25)" stroke-width="0.3" stroke-dasharray="2,2"/>
-        </svg>
-        <div class="net-packet packet-1"></div>
-        <div class="net-packet packet-2"></div>
-        <div class="net-packet packet-3"></div>
-        <div class="net-packet packet-4"></div>
+      <div class="wv-preview">
+        <!-- Mini vehicle preview cards -->
+        <div class="wv-card">
+          <div class="wv-img-wrap">
+            <img src="range_rover.png" alt="Land Rover Range Rover Sport" />
+          </div>
+          <div class="wv-info">
+            <div class="wv-make">LAND ROVER</div>
+            <div class="wv-model">Range Rover Sport · 2019</div>
+            <div class="wv-foot">
+              <span class="wv-price">POA</span>
+              <span class="cbadge cb-grade" style="font-size:0.55rem;padding:3px 9px;">AA Grade</span>
+            </div>
+          </div>
+        </div>
+        <div class="wv-card">
+          <div class="wv-img-wrap">
+            <img src="bmw.png" alt="BMW 5 Series" />
+          </div>
+          <div class="wv-info">
+            <div class="wv-make">BMW</div>
+            <div class="wv-model">5 Series Touring · 2022</div>
+            <div class="wv-foot">
+              <span class="wv-price">£29,800</span>
+              <span class="cbadge cb-new" style="font-size:0.55rem;padding:3px 9px;">✦ Today</span>
+            </div>
+          </div>
+        </div>
+        <div class="wv-card">
+          <div class="wv-img-wrap">
+            <img src="volvo.png" alt="Volvo XC60" />
+          </div>
+          <div class="wv-info">
+            <div class="wv-make">VOLVO</div>
+            <div class="wv-model">XC60 Diesel · 2020</div>
+            <div class="wv-foot">
+              <span class="wv-price">£24,500</span>
+              <span class="cbadge cb-grade" style="font-size:0.55rem;padding:3px 9px;">AA Grade</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
