@@ -468,6 +468,20 @@ nav {
   filter: drop-shadow(0 20px 50px rgba(16,185,129,0.5));
   animation: floatUp 4s ease-in-out infinite alternate;
 }
+/* When r-card-icon is a real <img> */
+img.r-card-icon {
+  font-size: unset; width: 100%; height: 160px;
+  object-fit: cover; object-position: center;
+  border-radius: 16px; margin: 8px 0;
+  filter: brightness(0.9) saturate(1.1);
+  animation: floatUp 4s ease-in-out infinite alternate;
+}
+/* Gallery main image */
+img.gallery-car-img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+}
 @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-12px)} }
 
 /* Reflection underneath car */
@@ -973,7 +987,15 @@ nav {
   filter: drop-shadow(0 12px 28px var(--ph-shadow, rgba(16,185,129,0.45)));
   transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
 }
+/* When car-icon is a real <img> */
+img.car-icon {
+  font-size: unset; width: 100%; height: 100%;
+  object-fit: cover; position: absolute; inset: 0;
+  filter: brightness(0.92) saturate(1.1);
+  border-radius: 0; z-index: 1;
+}
 .v-card:hover .car-icon { transform: scale(1.1) translateY(-6px); }
+.v-card:hover img.car-icon { transform: scale(1.04); translateY(0); }
 .car-reflection {
   position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
   width: 55%; height: 3px; border-radius: 50%;
@@ -989,6 +1011,9 @@ nav {
   color: rgba(255,255,255,0.4); letter-spacing: 1px;
   backdrop-filter: blur(8px);
 }
+/* Hide hint & reflection when a real photo is loaded */
+.car-img-ph:has(img.car-icon) .img-upload-hint,
+.car-img-ph:has(img.car-icon) .car-reflection { display: none; }
 
 .card-badges {
   position: absolute; top: 0; left: 0; right: 0;
@@ -1718,7 +1743,7 @@ nav {
               <div class="r-card-source-badge">UK Auction · Lot #100</div>
               <div class="r-card-status"><div class="r-card-status-dot"></div>Live</div>
             </div>
-            <div class="r-card-icon">🚙</div>
+            <img src="range_rover.png" alt="Land Rover Range Rover Sport" class="r-card-icon" />
             <div class="r-card-reflection"></div>
             <div class="r-card-bottom">
               <div class="r-card-vrm">YW19OWV</div>
@@ -1741,7 +1766,7 @@ nav {
               <div class="r-card-source-badge">UK Auction · Lot #101</div>
               <div class="r-card-status"><div class="r-card-status-dot"></div>Live</div>
             </div>
-            <div class="r-card-icon">🚗</div>
+            <img src="volvo.png" alt="Volvo XC60" class="r-card-icon" />
             <div class="r-card-reflection"></div>
             <div class="r-card-bottom">
               <div class="r-card-vrm">FV69CFP</div>
@@ -1764,7 +1789,7 @@ nav {
               <div class="r-card-source-badge">UK Auction · Lot #103</div>
               <div class="r-card-status"><div class="r-card-status-dot"></div>Live</div>
             </div>
-            <div class="r-card-icon">🚘</div>
+            <img src="bmw.png" alt="BMW 5 Series" class="r-card-icon" />
             <div class="r-card-reflection"></div>
             <div class="r-card-bottom">
               <div class="r-card-vrm">DK22LMN</div>
@@ -1787,7 +1812,7 @@ nav {
               <div class="r-card-source-badge">UK Auction · Lot #104</div>
               <div class="r-card-status"><div class="r-card-status-dot"></div>Live</div>
             </div>
-            <div class="r-card-icon">🚖</div>
+            <img src="mercedes.png" alt="Mercedes E-Class" class="r-card-icon" />
             <div class="r-card-reflection"></div>
             <div class="r-card-bottom">
               <div class="r-card-vrm">HJ21XYZ</div>
@@ -1994,7 +2019,7 @@ nav {
       <a class="v-card" href="#" onclick="switchPage('detail');return false;">
         <div class="car-img-wrap">
           <div class="car-img-ph ph-emerald" style="--ph-glow:rgba(16,185,129,0.22);--ph-shadow:rgba(16,185,129,0.45)">
-            <span class="car-icon">🚙</span>
+            <img src="range_rover.png" alt="Land Rover Range Rover Sport" class="car-icon" />
             <div class="car-reflection"></div>
             <div class="img-upload-hint">📷 PHOTO HERE</div>
           </div>
@@ -2025,7 +2050,7 @@ nav {
       <a class="v-card is-new" href="#" onclick="switchPage('detail');return false;">
         <div class="car-img-wrap">
           <div class="car-img-ph ph-mint" style="--ph-glow:rgba(45,212,191,0.22);--ph-shadow:rgba(20,184,166,0.5)">
-            <span class="car-icon">🚗</span>
+            <img src="volvo.png" alt="Volvo XC60" class="car-icon" />
             <div class="car-reflection"></div>
             <div class="img-upload-hint">📷 PHOTO HERE</div>
           </div>
@@ -2052,7 +2077,7 @@ nav {
       <a class="v-card" href="#" onclick="switchPage('detail');return false;">
         <div class="car-img-wrap">
           <div class="car-img-ph ph-rose" style="--ph-glow:rgba(244,63,94,0.18);--ph-shadow:rgba(244,63,94,0.4)">
-            <span class="car-icon">🚐</span>
+            <img src="vw.png" alt="Volkswagen Amarok" class="car-icon" />
             <div class="car-reflection"></div>
             <div class="img-upload-hint">📷 PHOTO HERE</div>
           </div>
@@ -2083,7 +2108,7 @@ nav {
       <a class="v-card" href="#" onclick="switchPage('detail');return false;">
         <div class="car-img-wrap">
           <div class="car-img-ph ph-teal" style="--ph-glow:rgba(20,184,166,0.22);--ph-shadow:rgba(13,148,136,0.45)">
-            <span class="car-icon">🚘</span>
+            <img src="bmw.png" alt="BMW 5 Series Touring" class="car-icon" />
             <div class="car-reflection"></div>
             <div class="img-upload-hint">📷 PHOTO HERE</div>
           </div>
@@ -2114,7 +2139,7 @@ nav {
       <a class="v-card" href="#" onclick="switchPage('detail');return false;">
         <div class="car-img-wrap">
           <div class="car-img-ph ph-lime" style="--ph-glow:rgba(132,204,22,0.2);--ph-shadow:rgba(132,204,22,0.4)">
-            <span class="car-icon">🚖</span>
+            <img src="mercedes.png" alt="Mercedes E-Class AMG" class="car-icon" />
             <div class="car-reflection"></div>
             <div class="img-upload-hint">📷 PHOTO HERE</div>
           </div>
@@ -2145,7 +2170,7 @@ nav {
       <a class="v-card is-exists" href="#" onclick="switchPage('detail');return false;">
         <div class="car-img-wrap">
           <div class="car-img-ph ph-forest" style="--ph-glow:rgba(20,83,45,0.3);--ph-shadow:rgba(34,197,94,0.4)">
-            <span class="car-icon">🚙</span>
+            <img src="audi.png" alt="Audi Q5 Sport" class="car-icon" />
             <div class="car-reflection"></div>
             <div class="img-upload-hint">📷 PHOTO HERE</div>
           </div>
@@ -2303,17 +2328,16 @@ nav {
       <div>
         <div class="gallery-main" style="margin-bottom:14px;">
           <div class="gallery-ph">
-            <div class="gallery-car-icon">🚙</div>
-            <div class="gallery-road"></div>
-            <div class="gallery-label">📷 Insert vehicle photos here — replace with &lt;img&gt; tag</div>
+            <img src="range_rover.png" alt="Land Rover Range Rover Sport" class="gallery-car-img" />
+            <div class="gallery-label" style="z-index:2;position:absolute;">Land Rover Range Rover Sport · YW19OWV</div>
           </div>
           <div class="gallery-corner-badge"><span class="cbadge cb-grade">AA Grade · Inspected</span></div>
         </div>
         <div class="gallery-thumbs" style="margin-bottom:20px;">
-          <div class="g-thumb active"><div class="g-thumb-ph">🚙</div></div>
-          <div class="g-thumb"><div class="g-thumb-ph">🔧</div></div>
-          <div class="g-thumb"><div class="g-thumb-ph">🪟</div></div>
-          <div class="g-thumb"><div class="g-thumb-ph">💺</div></div>
+          <div class="g-thumb active"><img src="range_rover.png" alt="Exterior" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r-md);" /></div>
+          <div class="g-thumb"><img src="bmw.png" alt="Side" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r-md);" /></div>
+          <div class="g-thumb"><img src="volvo.png" alt="Interior" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r-md);" /></div>
+          <div class="g-thumb"><img src="mercedes.png" alt="Rear" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r-md);" /></div>
           <div class="g-thumb"><div class="g-thumb-ph" style="font-size:0.7rem;font-family:'Red Hat Mono',monospace;color:var(--text3);">+8</div></div>
         </div>
         <div class="detail-tabs">
